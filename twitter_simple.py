@@ -15,17 +15,27 @@ auth.set_access_token(access_token, access_token_secret)
 # Twitter API
 api = tweepy.API(auth)
 
-# Mentionの取得
-# 自分宛てのツイートを取得して表示
-#mentions = api.home_timeline(count=10)
-#for tweet in mentions:
-#    print tweet.user.screen_name, tweet.text
+# Brokenクラス
+class Broken():
+    def __init__(self,_date,_username, _text):
+        self.date    = _date;
+        self.username= _username;
+        self.text    = _text;
 
-# 検索して表示する
+# 取得したデータ(Brokenクラス)の配列
+BrokenList = []
+
+# 検索してデータを格納
 keywords = u'別れました'
 for tweet in api.search(q=keywords, count=10):
-    print tweet.created_at, tweet.user.screen_name, tweet.text
+    # print tweet.created_at, tweet.user.screen_name, tweet.text
+    BrokenList.append(Broken(tweet.created_at, tweet.user.screen_name, tweet.text))
 
+# 表示
+for broken in BrokenList:
+    print broken.date, broken.username, broken.text
+
+# 一旦false
 if False:
     # ツイートを送信
     try:
