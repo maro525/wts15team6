@@ -17,13 +17,19 @@ api = tweepy.API(auth)
 
 # Mentionの取得
 # 自分宛てのツイートを取得して表示
-mentions = api.mentions_timeline(count=10)
-for tweet in mentions:
-    print tweet.user.screen_name, tweet.text
+#mentions = api.home_timeline(count=10)
+#for tweet in mentions:
+#    print tweet.user.screen_name, tweet.text
 
-# ツイートを送信
-try:
-    api.update_status(status='Hello, world!')
-    # api.update_status(status=u'こんにちは世界さん')
-except tweepy.TweepError as e:
-    print e
+# 検索して表示する
+keywords = u'別れました'
+for tweet in api.search(q=keywords, count=10):
+    print tweet.created_at, tweet.user.screen_name, tweet.text
+
+if False:
+    # ツイートを送信
+    try:
+        api.update_status(status='Hello, world!')
+        # api.update_status(status=u'こんにちは世界さん')
+    except tweepy.TweepError as e:
+        print e
