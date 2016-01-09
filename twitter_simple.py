@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 import tweepy
 
-consumer_key        = ''
-consumer_secret     = ''
-access_token        = ''
-access_token_secret = ''
+consumer_key        = 'tMW349UNzlmIRztNIyp8coJSa'
+consumer_secret     = '3h5sUb2WJC1jaGflGPvuvxJ0vGh5VYXq4qmoyAmTQdD5sRraGI'
+access_token        = '4620166219-RfRL8kwOJbQ9tuHZLWhDYTP5CoufZ1joUJWFkXd'
+access_token_secret = 'B7CD5FxXwoeiTNXWbOrklmUWacfwFOE8yFm6Qe98LunTp'
 
 # Twitter OAuth
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
