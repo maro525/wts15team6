@@ -1,5 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import os
+import codecs
+import re
 import tweepy
 
 consumer_key        = 'tMW349UNzlmIRztNIyp8coJSa'
@@ -14,6 +17,9 @@ auth.set_access_token(access_token, access_token_secret)
 
 # Twitter API
 api = tweepy.API(auth)
+
+# 読み込んだタイムラインをoutput.txt に書き込む
+fp = codecs.open('output.txt','w','euc-jp')
 
 # Brokenクラス
 class Broken():
@@ -30,10 +36,13 @@ keywords = u'別れました'
 for tweet in api.search(q=keywords, count=10):
     # print tweet.created_at, tweet.user.screen_name, tweet.text
     BrokenList.append(Broken(tweet.created_at, tweet.user.screen_name, tweet.text))
+    fp.write(tweet.text + "\n")
+
+fp.close()
 
 # 表示
-for broken in BrokenList:
-    print broken.date, broken.username, broken.text
+#for broken in BrokenList:
+#    print broken.date, broken.username, broken.text
 
 # 一旦false
 if False:
