@@ -54,7 +54,7 @@ for line in codecs.open("output.txt.chasen","r","euc-jp"):
   line = line.rstrip('\r\n')
   if line == "EOS":
     print names
-      names = []
+    names = []
   else:
     lis = line.split("\t")
     if re.search(ur"人名",lis[3]):  #村井^Iムライ^I村井^I名詞-固有名詞-人名-姓^I^I
