@@ -22,24 +22,27 @@ api = tweepy.API(auth)
 class Broken():
   def __init__(self,_date,_username, _text):
     self.date    = _date;
-        self.username= _username;
-        self.text    = _text;
+    self.username= _username;
+    self.text    = _text;
 
 # 取得したデータ(Brokenクラス)の配列
 BrokenList = []
 
 # 検索してデータを格納
-keywords = u'別れました'
+keywords = u'別れ(まし)*た' #either 別れた or 別れました
 for tweet in api.search(q=keywords, count=10):
   # print tweet.created_at, tweet.user.screen_name, tweet.text
     BrokenList.append(Broken(tweet.created_at, tweet.user.screen_name, tweet.text))
 
-fp = codecs.open('output.txt','w','euc-jp')
+fp = codecs.open('output.txt','w','utf_8')
 
 # 表示
 for broken in BrokenList:
-  print broken.date, broken.username, broken.text
-  fp.write(broken.text + "\n")
+  if broken.text.match("^RT @[a-zA-Z0-9_]*:"):  #ignore tweets starting with RT @[英数字]:
+    pass
+  else:
+    print broken.date, broken.username, broken.text
+    fp.write(broken.text + "\n")
 
 fp.close()
 
@@ -50,7 +53,7 @@ os.system('chasen < output.txt > output.txt.chasen')
 names = []
 
 # 練習問題3(第4回課題)を参照
-for line in codecs.open("output.txt.chasen","r","euc-jp"):
+for line in codecs.open("output.txt.chasen","r","utf_8"):
   line = line.rstrip('\r\n')
   if line == "EOS":
     print names
