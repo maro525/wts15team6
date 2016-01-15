@@ -38,7 +38,7 @@ fp = codecs.open('output.txt','w','utf_8')
 
 # 表示
 for broken in BrokenList:
-  if broken.text.match("^RT @[a-zA-Z0-9_]*:"):  #ignore tweets starting with RT @[英数字]:
+  if broken.text.match(u'^RT @[a-zA-Z0-9_]*:', re.UNICODE):  #ignore tweets starting with RT @[英数字]:
     pass
   else:
     print broken.date, broken.username, broken.text
