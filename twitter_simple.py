@@ -32,20 +32,20 @@ BrokenList = []
 sys.stdout = codecs.getwriter("utf-8")(sys.stdout)
 
 # 検索してデータを格納
-keywords = u'別れ(まし)*た -RT' #either 別れた or 別れました
-for tweet in api.search(q=keywords, count=10):
+keywords = u'別れました 別れた -RT' #either 別れた or 別れました
+for tweet in api.search(q=keywords, count=100):
   #tweet.created_at, tweet.user.screen_name, tweet.text
   if re.search(u'bot', tweet.user.screen_name):  #ignore tweets starting with RT @[alphanum]::: これは 検索キーワードのところで -RTを入れれば可能 or with username with bot
       pass
   else:
       BrokenList.append(Broken(tweet.created_at, tweet.user.screen_name, tweet.text))
 
-fp = codecs.open('output.txt','w','utf-8')
+fp = open('output.txt','w')
 
 # 表示
 for broken in BrokenList:
-    print broken.date, broken.username, broken.text
-    fp.write(broken.text + "\n")
+  print broken.date, broken.username, broken.text.replace('\n', '')
+  fp.write(broken.text.encode('euc-jp','replace').replace('\n', ''))
 
 fp.close()
 
@@ -59,7 +59,7 @@ initial = []
 count = 0
 
 # 練習問題3(第4回課題)を参照
-for line in codecs.open('output.txt.chasen','r','utf-8'):
+for line in codecs.open('output.txt.chasen','r','euc-jp'):
     line = line.rstrip('\r\n')
     if line == "EOS":
         if has_break:
@@ -68,62 +68,71 @@ for line in codecs.open('output.txt.chasen','r','utf-8'):
             if has_name:
                 has_name = False
                 if re.search(ur"^[カキクケコ]", name):
-                        initial.append = "K"
+                        initial.append("K")
                 elif re.search(ur"^[サシスセソ]", name):
-                        initial.append = "S"
+                        initial.append("S")
                 elif re.search(ur"^[タチツテト]", name):
-                        initial.append = "T"
+                        initial.append("T")
                 elif re.search(ur"^[ナニヌネノ]", name):
-                        initial.append = "N"
+                        initial.append("N")
                 elif re.search(ur"^[ハヒヘホ]", name):
-                        initial.append = "H"
+                        initial.append("H")
                 elif re.search(ur"^[フ]", name):
-                        initial.append = "F"
+                        initial.append("F")
                 elif re.search(ur"^[マミムメモ]", name):
-                        initial.append = "M"
+                        initial.append("M")
                 elif re.search(ur"^[ヤユヨ]", name):
-                        initial.append = "Y"
+                        initial.append("Y")
                 elif re.search(ur"^[ガギグゲゴ]", name):
-                        initial.append = "G"
+                        initial.append("G")
                 elif re.search(ur"^[ザジヂズヅゼゾ]", name):
-                        initial.append = "Z"
+                        initial.append("Z")
                 elif re.search(ur"^[ダデド]", name):
-                        initial.append = "D"
+                        initial.append("D")
                 elif re.search(ur"^[バビブベボ]", name):
-                        initial.append = "B"
+                        initial.append("B")
                 elif re.search(ur"^[パピプペポ]", name):
-                        initial.append = "P"
+                        initial.append("P")
                 elif re.search(ur"^[ア]", name):
-                        initial.append = "A"
+                        initial.append("A")
                 elif re.search(ur"^[イ]", name):
-                        initial.append = "I"
+                        initial.append("I")
                 elif re.search(ur"^[ウ]", name):
-                        initial.append = "U"
+                        initial.append("U")
                 elif re.search(ur"^[エ]", name):
-                        initial.append = "E"
+                        initial.append("E")
                 elif re.search(ur"^[オ]", name):
-                        initial.append = "O"
+                        initial.append("O")
     else:
         lis = line.split("\t")
         if re.search(ur"人名",lis[3]): #村井^Iムライ^I村井^I名詞-固有名詞-人名-姓^I^I
-            name = lis[1]
-            has_name = True
+            if has_break:
+                if not has_name:
+                    name = lis[1]
+                    has_name = True
+            else:
+                if not has_name:
+                    name = lis[1]
+                    has_name = True
+
         elif re.search(ur"別れ",lis[0]):
             has_break = True
 
+#ツイートする間隔(分)
+time = 30
 #ツイートする文章
 if count == 0:
-    text = u"この30分で、破局したカップルはいません。したがって、残念ながら新しいチャンスは、誰にも訪れないでしょう。"
+    text = u"この%d分で、破局したカップルはいません。したがって、残念ながら新しいチャンスは、誰にも訪れないでしょう。" % time 
 else:
     if len(initial) == 0:
-        text = u"この30分で、破局したカップルの数は%dです。これにより、%d人の人に新しいチャンスが訪れるでしょう" %(count, count*2)
+        text = u"この%d分で、破局したカップルの数は%dです。これにより、%d人の人に新しいチャンスが訪れるでしょう" %(time, count, count*2)
     else:
-        text = u"この30分で、"
+        text = u"この%d分で、" % time
     
-        for str in initial:
-            text += initial + u"さん、"
+        for i in initial:
+            text += i + u"さん、"
 
-        text += u"が別れました。この３０分で破局したカップルの数は%dです。これにより、%d人の人に新しいチャンスが訪れるでしょう" %(count, count*2)
+        text += u"が別れています。また、この%d分で破局したカップルの数は%dです。これにより、%d人の人に新しいチャンスが訪れるでしょう" %(time, count, count*2)
 
 print text
 
