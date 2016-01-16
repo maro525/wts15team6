@@ -35,11 +35,15 @@ sys.stdout = codecs.getwriter("utf-8")(sys.stdout)
 keywords = u'別れ(まし)*た' #either 別れた or 別れました
 for tweet in api.search(q=keywords, count=10):
   # print 'aaa'
-  tweet.created_at, tweet.user.screen_name, tweet.text
+  print tweet.created_at, tweet.user.screen_name, tweet.text
   BrokenList.append(Broken(tweet.created_at, tweet.user.screen_name, tweet.text))
+
+print BrokenList
 
 fp = codecs.open('output.txt','w','utf-8')
 
+#一日に別れたカップルの数を格納する変数
+count = 0
 
 # 表示
 for broken in BrokenList:
@@ -49,7 +53,8 @@ for broken in BrokenList:
     print broken.date, broken.username, broken.text
     # print 'aaa'
     fp.write(broken.text + "\n")
-
+    count += 1
+	
 fp.close()
 
 # 外部コマンドの実行には `os.system()` を使う
@@ -69,11 +74,17 @@ for line in codecs.open("output.txt.chasen","r","utf-8"):
     if re.search(ur"人名",lis[3]):  #村井^Iムライ^I村井^I名詞-固有名詞-人名-姓^I^I
       names[line] = lis[0]
 
+#tweetする文章
+#どんな感じの文章がいいんでしょうか。。。
+#text = u"【速報】先ほど%dさんが破局しました！" % (name) 
+#text = u"この１時間で、%d個のカップルが破局しました。これにより、%d人の人に新しいチャンスが訪れることになります" %(count, count*2)
+
+
 # 一旦false
 if False:
   # ツイートを送信
     try:
-      api.update_status(status='Hello, world!')
-        # api.update_status(status=u'こんにちは世界さん')
+      api.update_status(status=text)
+      count = 0 #変数をリセット
     except tweepy.TweepError as e:
       print e
