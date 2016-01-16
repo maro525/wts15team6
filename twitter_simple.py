@@ -5,6 +5,7 @@ import codecs
 import os
 import re
 import sys
+import datetime
 
 consumer_key        = 'tMW349UNzlmIRztNIyp8coJSa'
 consumer_secret     = '3h5sUb2WJC1jaGflGPvuvxJ0vGh5VYXq4qmoyAmTQdD5sRraGI'
@@ -32,7 +33,7 @@ BrokenList = []
 sys.stdout = codecs.getwriter("utf-8")(sys.stdout)
 
 # 検索してデータを格納
-keywords = u'別れました 別れた -RT' #either 別れた or 別れました
+keywords = u'別れました OR 別れた -RT' #either 別れた or 別れました
 for tweet in api.search(q=keywords, count=100):
   #tweet.created_at, tweet.user.screen_name, tweet.text
   if re.search(u'bot', tweet.user.screen_name):  #ignore tweets starting with RT @[alphanum]::: これは 検索キーワードのところで -RTを入れれば可能 or with username with bot
@@ -42,10 +43,15 @@ for tweet in api.search(q=keywords, count=100):
 
 fp = open('output.txt','w')
 
+
 # 表示
 for broken in BrokenList:
-  print broken.date, broken.username, broken.text.replace('\n', '')
-  fp.write(broken.text.encode('euc-jp','replace').replace('\n', ''))
+  print (broken.date + datetime.timedelta(hours=9))
+  if datetime.datetime.now() - (broken.date + datetime.timedelta(hours=9)) <= datetime.timedelta(minutes=15):
+    print broken.date, broken.username, broken.text.replace('\n', '')
+    fp.write(broken.text.encode('euc-jp','replace').replace('\n', '') + "\n")
+  else:
+    fp.write("HERE\n")
 
 fp.close()
 
@@ -125,14 +131,14 @@ if count == 0:
     text = u"この%d分で、破局したカップルはいません。したがって、残念ながら新しいチャンスは、誰にも訪れないでしょう。" % time 
 else:
     if len(initial) == 0:
-        text = u"この%d分で、破局したカップルの数は%dです。これにより、%d人の人に新しいチャンスが訪れるでしょう" %(time, count, count*2)
+        text = u"この%d分で、破局したと思われるカップルの数は%dです。これにより、%d人の人に新しいチャンスが訪れるでしょう" %(time, count, count*2)
     else:
         text = u"この%d分で、" % time
     
         for i in initial:
             text += i + u"さん、"
 
-        text += u"が別れています。また、この%d分で破局したカップルの数は%dです。これにより、%d人の人に新しいチャンスが訪れるでしょう" %(time, count, count*2)
+        text += u"が別れています。また、この%d分で破局したと思われるカップルの数は%dです。これにより、%d人の人に新しいチャンスが訪れるでしょう" %(time, count, count*2)
 
 print text
 
