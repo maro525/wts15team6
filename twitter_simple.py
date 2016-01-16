@@ -112,11 +112,22 @@ for line in codecs.open('output.txt.chasen','r','utf-8'):
             has_break = True
 
 #ツイートする文章
-text = u"この１時間で、"
-for str in initial:
-    text += initial + u"さん、"
-text += u"が別れました。この３０分で破局したカップルの数は%dです。これにより、%d人の人に新しいチャンスが訪れるでしょう" %(count, count*2)
+if count == 0:
+    text = u"この30分で、破局したカップルはいません。したがって、残念ながら新しいチャンスは、誰にも訪れないでしょう。"
+else:
+    if len(initial) == 0:
+        text = u"この30分で、破局したカップルの数は%dです。これにより、%d人の人に新しいチャンスが訪れるでしょう" %(count, count*2)
+    else:
+        text = u"この30分で、"
+    
+        for str in initial:
+            text += initial + u"さん、"
+
+        text += u"が別れました。この３０分で破局したカップルの数は%dです。これにより、%d人の人に新しいチャンスが訪れるでしょう" %(count, count*2)
+
 print text
+
+
 # 一旦false
 if False:
     # ツイートを送信
