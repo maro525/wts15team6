@@ -4,7 +4,7 @@ import tweepy
 import codecs
 import os
 import re
-import sys
+import unicodedata
 
 consumer_key        = 'tMW349UNzlmIRztNIyp8coJSa'
 consumer_secret     = '3h5sUb2WJC1jaGflGPvuvxJ0vGh5VYXq4qmoyAmTQdD5sRraGI'
@@ -29,25 +29,20 @@ class Broken():
 # 取得したデータ(Brokenクラス)の配列
 BrokenList = []
 
-sys.stdout = codecs.getwriter("utf-8")(sys.stdout)
-
 # 検索してデータを格納
 keywords = u'別れ(まし)*た' #either 別れた or 別れました
 for tweet in api.search(q=keywords, count=10):
-  # print 'aaa'
-  tweet.created_at, tweet.user.screen_name, tweet.text
-  BrokenList.append(Broken(tweet.created_at, tweet.user.screen_name, tweet.text))
+    print 'aaa'#tweet.created_at, tweet.user.screen_name, tweet.text
+    BrokenList.append(Broken(tweet.created_at, tweet.user.screen_name, tweet.text))
 
-fp = codecs.open('output.txt','w','utf-8')
-
+fp = codecs.open('output.txt','w','utf_8')
 
 # 表示
 for broken in BrokenList:
   if re.search(u'^RT @[a-zA-Z0-9_]*:', broken.text):  #ignore tweets starting with RT @[alphanum]:
    pass
   else:
-    print broken.date, broken.username, broken.text
-    # print 'aaa'
+    print 'aaa' #broken.date, broken.username, broken.text
     fp.write(broken.text + "\n")
 
 fp.close()
@@ -59,7 +54,7 @@ os.system('chasen < output.txt > output.txt.chasen')
 names = []
 
 # 練習問題3(第4回課題)を参照
-for line in codecs.open("output.txt.chasen","r","utf-8"):
+for line in codecs.open("output.txt.chasen","r","utf_8"):
   line = line.rstrip('\r\n')
   if line == "EOS":
     print names
