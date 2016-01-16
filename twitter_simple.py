@@ -76,4 +76,4 @@ if False:
       api.update_status(status='Hello, world!')
         # api.update_status(status=u'こんにちは世界さん')
     except tweepy.TweepError as e:
-      print e
+	print e
