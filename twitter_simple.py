@@ -228,11 +228,11 @@ else: #別れた人がいる場合
                 elif count_broken == count_couple: #わかれた人数と付き合った人数が同じ場合
                     text += u"誰にも恋のチャンスは訪れません"
         else: #別れた人のイニシャルを一つ以上取得してい場合
+            text = u"この%d分で、%d人の人が付き合ったというようなツイートをし、%d人の人が別れたというようなツイートをしました。\n\nまた、" %(time, count_couple, count_broken)
             if len(initial_couple) == 0: #付き合った人のイニシャルを一つも取得していない場合
-                text = u"この%d分で、%d人の人が付き合ったというようなツイートをし、%d人の人が別れたというようなツイートをしました。\n\nまた、" %(time, count_couple, count_broken)
                 for i in initial_broken:
                     text += i + u"さん、"
-                text += u"この%d人は、確実に付き合い始めたと言えるでしょう。\n\nこれにより、" %len(initial_broken)
+                text += u"この%d人は、確実に破局したと言えるでしょう。\n\nこれにより、" %len(initial_broken)
                 if count_couple > count_broken: #付き合った人がわかれた人より多い場合
                     text += u"%d人の人の恋のチャンスがなくなりました" %(count_couple - count_broken)*2
                 elif count_broken > count_couple: #別れた人が付き合った人より多い場合
@@ -240,13 +240,12 @@ else: #別れた人がいる場合
                 elif count_broken == count_couple: #わかれた人数と付き合った人数が同じ場合
                     text += u"誰にも恋のチャンスは訪れません"
             else: #付き合った人のイニシャルを一つ以上取得している場合
-                text = u"この%d分で、%d人の人が付き合ったというようなツイートをし、%d人の人が別れたというようなツイートをしました。\n\nまた、" %(time, count_couple, count_broken)
                 for i in initial_couple:
                     text += i + u"さん、"
                 text += u"この%d人は、確実に付き合い始めたと言えるでしょう。\n\nそして、" %len(initial_couple)
                 for i in initial_broken:
                     text += i + u"さん、"
-                text += u"この%d人は、確実に破局たと言えるでしょう。\n\nしたがって、" %len(initial_broken)
+                text += u"この%d人は、確実に破局したと言えるでしょう。\n\nしたがって、" %len(initial_broken)
                 if count_couple > count_broken: #付き合った人がわかれた人より多い場合
                     text += u"%d人の人の恋のチャンスがなくなりました" %(count_couple - count_broken)*2
                 elif count_broken > count_couple: #別れた人が付き合った人より多い場合
