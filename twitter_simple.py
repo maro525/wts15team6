@@ -241,17 +241,21 @@ else: #別れた人がいる場合
                 text += u"この%d人は、確実に破局してます。\n\nしたがって、幸運なことに%d人の人には確実に新しい恋のチャンスがやってきます。これより、" %(len(initial_broken),len(initial_broken)*2)
             else: #付き合った人のイニシャルを一つ以上取得している場合
                 if count_couple > count_broken: #付き合った人がわかれた人より多い場合
-                    text += u"%d人の人の恋のチャンスがなくなったのでしょう。\n\nただ、確実なのは、" %(count_couple - count_broken)*2
+                    text += u"%d人の人の恋のチャンスがなくなったのでしょう。" %(count_couple - count_broken)*2
                 elif count_broken > count_couple: #別れた人が付き合った人より多い場合
-                    text += u"%d人の人に新しい恋のチャンスが訪れるかもしれません。\n\nただ、確実なのは" %(count_broken - count_couple)*2
+                    text += u"%d人の人に新しい恋のチャンスが訪れるかもしれません。" %(count_broken - count_couple)*2
                 elif count_broken == count_couple: #わかれた人数と付き合った人数が同じ場合
-                    text += u"誰にも恋のチャンスは訪れないでしょう。\n\nただ、確実なのは、"
+                    text += u"誰にも恋のチャンスは訪れないでしょう。"
+
+                text += u"\n\nただ、確実なのは"
+
                 for i in initial_couple:
                     text += i + u"さん、"
                 text += u"この%d人が、確実に付き合い始めたということ。\nそして、" %len(initial_couple)
                 for i in initial_broken:
                     text += i + u"さん、"
                 text += u"この%d人は、確実に破局したということです。\nしたがって、" %len(initial_broken)
+                
                 if len(initial_couple) > len(initial_broken): #確実に付き合った人が確実にわかれた人より多い場合
                     text += u"%d人の人は、確実に恋のチャンスがなくなりました。" %(len(initial_couple) - len(initial_broken))*2
                 elif len(initial_broken) > len(initial_couple): #確実に別れた人が確実付き合った人より多い場合
